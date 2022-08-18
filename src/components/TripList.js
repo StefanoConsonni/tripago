@@ -6,11 +6,16 @@ import "./TripList.css";
 
 export default function TripList() {
 	const [url, setUrl] = useState("http://localhost:3000/trips");
-	const { data: trips } = useFetch(url);
+	const { data: trips, isPending } = useFetch(url);
 
 	return (
 		<div className="trip-list">
 			<h2>Trip List</h2>
+			<div className="filters">
+				<button onClick={() => setUrl("http://localhost:3000/trips?loc=europe")}>European Trips</button>
+				<button onClick={() => setUrl("http://localhost:3000/trips")}>All Trips</button>
+			</div>
+			{isPending && <div>Loading trips...</div>}
 			<ul>
 				{trips &&
 					trips.map((trip) => (
@@ -20,10 +25,6 @@ export default function TripList() {
 						</li>
 					))}
 			</ul>
-			<div className="filters">
-				<button onClick={() => setUrl("http://localhost:3000/trips?loc=europe")}>European Trips</button>
-				<button onClick={() => setUrl("http://localhost:3000/trips")}>All Trips</button>
-			</div>
 		</div>
 	);
 }
